@@ -36,7 +36,6 @@ public class FistController : MonoBehaviour {
         if (punched) return;
         this.toLatchTo = player;
         diff = fistBody.position - player.position ;
-        Debug.Log(diff);
         fistBody.position = player.position + punchStartModifier;
         Vector2 punch = facing == Facing.Left ? new Vector2(-punchSpeed, 0) : new Vector2(punchSpeed, 0);
         joint.enabled = false;

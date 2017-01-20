@@ -1,11 +1,13 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour {
 
-    
+    public event Action<PlayerController> onFaint;
+
     private MovementScript movementScript;
     private WobblerScript wobbler;
     private Rigidbody2D body;
@@ -16,12 +18,27 @@ public class PlayerController : MonoBehaviour {
     private float timeDownToFaint = 2f;
     [SerializeField]
     private string playerName = "player";
-    [SerializeField]
-    Text text;
+
+    private bool fainted = false;
 
 
-	// Use this for initialization
-	void Start () {
+    public string PlayerName
+    {
+        get
+        {
+            return playerName;
+        }
+
+        set
+        {
+            playerName = value;
+        }
+    }
+
+
+
+    // Use this for initialization
+    void Start () {
         movementScript = GetComponent<MovementScript>();
         wobbler = GetComponent<WobblerScript>();
         body = GetComponent<Rigidbody2D>();
@@ -36,6 +53,7 @@ public class PlayerController : MonoBehaviour {
 
     private void Update()
     {
+        if (fainted) return;
         if(Mathf.Abs( body.rotation) > 45)
         {
             timeDown += Time.deltaTime;
@@ -47,8 +65,16 @@ public class PlayerController : MonoBehaviour {
 
         if(timeDown >= timeDownToFaint)
         {
-            text.gameObject.SetActive(true);
-            text.text = (playerName + " has fainted!");
+            Faint();
         }
+    }
+
+    private void Faint()
+    {
+        movementScript.enabled = false;
+        wobbler.enabled = false;
+        fainted = true;
+        if (onFaint != null)
+            onFaint(this);
     }
 }
