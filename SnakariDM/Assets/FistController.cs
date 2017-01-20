@@ -63,7 +63,7 @@ public class FistController : MonoBehaviour {
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if("Player" == collision.rigidbody.tag)
+        if("Player" == collision.gameObject.tag)
         {
             Vector2 dir = fistBody.position - collision.rigidbody.position;
 
