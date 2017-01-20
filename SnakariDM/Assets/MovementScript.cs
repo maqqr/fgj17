@@ -76,7 +76,10 @@ public class MovementScript : MonoBehaviour {
         {
 
             Vector3 force = transform.up * jump * jumpForce;
-            body.AddForce(force, ForceMode2D.Impulse);
+            //body.AddForce(force, ForceMode2D.Impulse);
+
+            if (jump > 0)
+                body.velocity = new Vector2(force.x, force.y);
         }
 
         if(Input.GetKeyDown(punchRight))

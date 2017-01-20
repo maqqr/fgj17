@@ -64,9 +64,12 @@
 				distortion3.x += 2 * _WaveScale.x * cos(i.uv.y * 20.0 + _Time.y * _TimeScale.x + 234);
 				distortion3.y += 2 * _WaveScale.y * sin(i.uv.x * 20.0 + _Time.y * _TimeScale.y + 789);
 
-				fixed4 col = tex2D(_MainTex, distortion);
-				col -= 0.3 * pow(tex2D(_DisplaceTex, distortion2 * 0.5), 2);
-				col += 0.1 * tex2D(_MainTex, distortion3);
+				float pii = 3.141592;
+				float c = clamp(0, 1, pow(sin(i.uv.x * pii), 2));
+
+				fixed4 col = tex2D(_MainTex, lerp(i.uv, distortion, c));
+				col -= 0.4 * pow(tex2D(_DisplaceTex, distortion2 * 2), 2);
+				col += 0.2 * tex2D(_MainTex, distortion3);
 
 				return col;
 			}
