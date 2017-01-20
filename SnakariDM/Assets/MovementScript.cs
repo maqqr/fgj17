@@ -12,6 +12,8 @@ public class MovementScript : MonoBehaviour {
     private float movementForceModifierRotation = 50;
     [SerializeField]
     private float jumpForce = 100f;
+    [SerializeField]
+    private Vector2 centerOfMass = new Vector2(0, -0.2f);
 
     private bool rooted = true;
     private SpriteRenderer spriteRend;
@@ -21,6 +23,7 @@ public class MovementScript : MonoBehaviour {
 	void Start () {
         spriteRend = GetComponent<SpriteRenderer>();
         body = GetComponent<Rigidbody2D>();
+        body.centerOfMass = centerOfMass;
 
 	}
 	
@@ -31,6 +34,9 @@ public class MovementScript : MonoBehaviour {
 
         float jump = Input.GetKeyDown(KeyCode.UpArrow) ? 1.0f : 0.0f; //Input.GetAxis("Vertical");
 
+
+        rooted = Physics2D.Raycast(transform.position + -transform.up * 1.02f , -transform.up, 0.5f);
+        //rooted = Physics.SphereCast(transform.position + new Vector3(0, -1.05f, 0), 0.15, );
         if (rooted)
         {
 
