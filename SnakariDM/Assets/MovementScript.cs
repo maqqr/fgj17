@@ -99,7 +99,6 @@ public class MovementScript : MonoBehaviour {
         body.AddForce(movement * Time.deltaTime * movementSpeed, ForceMode2D.Force);
 
         float torque = movement.x * Time.deltaTime * movementForceModifierRotation;
-        Debug.Log(torque);
         body.AddTorque(torque);
 
         if (movement.x > 0)

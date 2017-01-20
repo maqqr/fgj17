@@ -68,6 +68,7 @@ public class FistController : MonoBehaviour {
             Vector2 dir = fistBody.position - collision.rigidbody.position;
 
             collision.rigidbody.AddForce(dir.normalized * punchForce);
+            collision.gameObject.GetComponent<PlayerController>().TakeHit();
         }
     }
 
