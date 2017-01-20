@@ -26,6 +26,8 @@ public class MovementScript : MonoBehaviour {
     [SerializeField]
     private KeyCode punchRight = KeyCode.Return;
     [SerializeField]
+    private KeyCode punchLeft = KeyCode.RightControl;
+    [SerializeField]
     private KeyCode jumpButton = KeyCode.UpArrow;
 
 
@@ -80,6 +82,10 @@ public class MovementScript : MonoBehaviour {
         if(Input.GetKeyDown(punchRight))
         {
             rightFist.ThrowAPunch(body, Facing);
+        }
+        if(Input.GetKeyDown(punchLeft))
+        {
+            leftFist.ThrowAPunch(body, Facing);
         }
 
     }
