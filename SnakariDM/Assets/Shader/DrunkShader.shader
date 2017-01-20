@@ -65,7 +65,7 @@
 				distortion3.y += 2 * _WaveScale.y * sin(i.uv.x * 20.0 + _Time.y * _TimeScale.y + 789);
 
 				fixed4 col = tex2D(_MainTex, distortion);
-				//col -= 0.2 * pow(tex2D(_DisplaceTex, distortion2 * 0.3), 2);
+				col -= 0.3 * pow(tex2D(_DisplaceTex, distortion2 * 0.5), 2);
 				col += 0.1 * tex2D(_MainTex, distortion3);
 
 				return col;
