@@ -13,6 +13,8 @@ public class CameraFollow : MonoBehaviour
     Vector3 offset;
 
     private float startingSize;
+    [SerializeField]
+    private float maxSize = 10f;
 
     private void Start()
     {
@@ -38,8 +40,14 @@ public class CameraFollow : MonoBehaviour
             distance += Mathf.Abs(objects[i].position.x - total.x);
         }
         Debug.Log(distance);
-        moveableCamera.transform.position = total + offset;
-        moveableCamera.orthographicSize = distance * 0.1f + startingSize ;
-        
+       
+        float size = Mathf.Min(maxSize, distance * 0.1f + startingSize);
+        moveableCamera.orthographicSize = size;
+        Vector3 scaled = total * (1 - (size - startingSize) / (maxSize - startingSize));
+
+        Vector3 center = scaled + offset;
+
+        moveableCamera.transform.position = center;
+
     }
 }
