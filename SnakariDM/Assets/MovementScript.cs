@@ -31,7 +31,7 @@ public class MovementScript : MonoBehaviour {
     private KeyCode jumpButton = KeyCode.UpArrow;
 
 
-
+    private static Vector2 HEAD = new Vector2(0, 0.45f);
     private bool rooted = true;
     private SpriteRenderer spriteRend;
 
@@ -70,7 +70,7 @@ public class MovementScript : MonoBehaviour {
         float jump = Input.GetKeyDown(jumpButton) ? 1.0f : 0.0f; //Input.GetAxis("Vertical");
 
 
-        rooted = Physics2D.Raycast(transform.position + -transform.up * 1.02f , -transform.up, 0.5f);
+        rooted = Physics2D.Raycast(transform.position + -transform.up * 1.1f , -transform.up, 0.5f);
         //rooted = Physics.SphereCast(transform.position + new Vector3(0, -1.05f, 0), 0.15, );
         if (rooted)
         {
@@ -90,10 +90,6 @@ public class MovementScript : MonoBehaviour {
 
     }
 
-   //private void ThrowAPunch(Rigidbody2D fist, FixedJoint2D joint)
-   //{
-   //    right
-   //}
 
     private void Move()
     {
@@ -105,7 +101,11 @@ public class MovementScript : MonoBehaviour {
         body.AddForce(movement * Time.deltaTime * movementSpeed, ForceMode2D.Force);
 
         float torque = movement.x * Time.deltaTime * movementForceModifierRotation;
-        body.AddTorque(torque);
+        // body.AddTorque(torque);
+        Vector2 d = new Vector2(transform.up.x, transform.up.y);
+        Vector2 headForce = body.position + d * 0.35f;
+
+        body.AddForceAtPosition(new Vector2(-torque, 0) * Time.deltaTime, d, ForceMode2D.Force);
 
         if (movement.x > 0)
         {
