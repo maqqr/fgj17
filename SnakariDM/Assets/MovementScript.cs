@@ -26,6 +26,8 @@ public class MovementScript : MonoBehaviour {
     [SerializeField]
     private KeyCode punchRight = KeyCode.Return;
     [SerializeField]
+    private KeyCode punchLeft = KeyCode.RightControl;
+    [SerializeField]
     private KeyCode jumpButton = KeyCode.UpArrow;
 
 
@@ -81,6 +83,10 @@ public class MovementScript : MonoBehaviour {
         {
             rightFist.ThrowAPunch(body, Facing);
         }
+        if(Input.GetKeyDown(punchLeft))
+        {
+            leftFist.ThrowAPunch(body, Facing);
+        }
 
     }
 
@@ -99,7 +105,6 @@ public class MovementScript : MonoBehaviour {
         body.AddForce(movement * Time.deltaTime * movementSpeed, ForceMode2D.Force);
 
         float torque = movement.x * Time.deltaTime * movementForceModifierRotation;
-        Debug.Log(torque);
         body.AddTorque(torque);
 
         if (movement.x > 0)

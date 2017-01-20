@@ -13,8 +13,21 @@ public class WobblerScript : MonoBehaviour {
     [SerializeField]
     private float wobbleForce = 25f;
 
-	// Use this for initialization
-	void Start () {
+    public float WobbleForce
+    {
+        get
+        {
+            return wobbleForce;
+        }
+
+        set
+        {
+            wobbleForce = value;
+        }
+    }
+
+    // Use this for initialization
+    void Start () {
         body = GetComponent<Rigidbody2D>();
 	}
 	
@@ -30,7 +43,7 @@ public class WobblerScript : MonoBehaviour {
             lastChange = 0f;
       //  }
       //  body.rotation += wobble * dTime * wobbleForce;
-        body.AddTorque(wobble *dTime * wobbleForce);
+        body.AddTorque(wobble *dTime * WobbleForce);
 
     }
 }

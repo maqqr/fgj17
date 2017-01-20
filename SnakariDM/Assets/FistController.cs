@@ -14,6 +14,8 @@ public class FistController : MonoBehaviour {
 
     [SerializeField]
     private float punchForce = 20f;
+    [SerializeField]
+    private Vector2 punchStartModifier = new Vector2();
 
     private Vector2 startingPos;
 
@@ -33,8 +35,8 @@ public class FistController : MonoBehaviour {
     {
         if (punched) return;
         this.toLatchTo = player;
-        diff = player.position - fistBody.position;
-        transform.position = player.position;
+        diff = fistBody.position - player.position ;
+        fistBody.position = player.position + punchStartModifier;
         Vector2 punch = facing == Facing.Left ? new Vector2(-punchSpeed, 0) : new Vector2(punchSpeed, 0);
         joint.enabled = false;
         fistBody.velocity = Vector2.zero;
@@ -63,11 +65,12 @@ public class FistController : MonoBehaviour {
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if("Player" == collision.rigidbody.tag)
+        if("Player" == collision.gameObject.tag)
         {
             Vector2 dir = fistBody.position - collision.rigidbody.position;
 
             collision.rigidbody.AddForce(dir.normalized * punchForce);
+            collision.gameObject.GetComponent<PlayerController>().TakeHit();
         }
     }
 
