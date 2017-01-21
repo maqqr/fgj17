@@ -1,0 +1,24 @@
+{
+    "weathers": [
+        {
+            "particleSystem": "Drizzle",
+            "groundFriction": 0.65,
+            "groundBounciness": 0
+        },
+        {
+            "particleSystem": "HeavyRain",
+            "groundFriction": 0.55,
+            "groundBounciness": 0.05
+        },
+        {
+            "particleSystem": "Cats",
+            "groundFriction": 0.8,
+            "groundBounciness": 0.25
+        },
+        {
+            "particleSystem": "HeavySnow",
+            "groundFriction": 0,
+            "groundBounciness": 0
+        }
+    ]
+}

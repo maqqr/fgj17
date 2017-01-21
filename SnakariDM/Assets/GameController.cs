@@ -58,7 +58,7 @@ public class GameController : MonoBehaviour
 
         if(weather == null && useWeather)
         {
-            weather = PickRandomWeather("Weather\\");
+            weather = PickRandomWeather("Weathers");
 
             GameObject pSystem = Resources.Load<GameObject>(weather.particleSystem);
             Instantiate(pSystem);
@@ -74,11 +74,11 @@ public class GameController : MonoBehaviour
 
     private Weather PickRandomWeather(string v)
     {
-           List<DataFile> files = Load.LoadFiles(Application.dataPath + "\\Resources\\" + v);
-        int selected = UnityEngine.Random.Range(0, files.Count);
+        TextAsset file = Resources.Load<TextAsset>(v);
 
-        Weather weather = JsonUtility.FromJson<Weather>(files[selected].content);
-        return weather;
+        Weathers weather = JsonUtility.FromJson<Weathers>(file.text);
+        Weather selected = weather.weathers[UnityEngine.Random.Range(0, weather.weathers.Length)];
+        return selected;
 
     }
 
