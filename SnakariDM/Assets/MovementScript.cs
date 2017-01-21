@@ -66,6 +66,8 @@ public class MovementScript : MonoBehaviour {
         spriteRend = GetComponent<SpriteRenderer>();
         body = GetComponent<Rigidbody2D>();
         body.centerOfMass = centerOfMass;
+        leftFist.Register(body);
+        rightFist.Register(body);
 
 	}
 	
@@ -94,11 +96,11 @@ public class MovementScript : MonoBehaviour {
 
         if(Input.GetKeyDown(punchRight))
         {
-            rightFist.ThrowAPunch(body, Facing);
+            rightFist.ThrowAPunch(Facing);
         }
         if(Input.GetKeyDown(punchLeft))
         {
-            leftFist.ThrowAPunch(body, Facing);
+            leftFist.ThrowAPunch(Facing);
         }
 
     }
