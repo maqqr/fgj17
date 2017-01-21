@@ -13,8 +13,12 @@ public class GameController : MonoBehaviour {
 
     [SerializeField]
     Text text;
+    [SerializeField]
+    private float endWaitTime = 3f;
 
-
+    private bool ending = false;
+    private float endCounter = 0f;
+    
     void Start () {
         p1.onFaint += EndGame;
         p2.onFaint += EndGame;
@@ -26,12 +30,21 @@ public class GameController : MonoBehaviour {
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
+        if(ending)
+        {
+            endCounter += Time.deltaTime;
+        }
+        if(endCounter >= endWaitTime)
+        {
+            SceneManager.LoadScene("Menu");
+        }
 	}
 
     public void EndGame(PlayerController pl)
     {
         text.gameObject.SetActive(true);
         text.text = (pl.PlayerName + " has fainted!");
+        ending = true;
     }
 
 }

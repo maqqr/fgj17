@@ -29,7 +29,10 @@ public class MovementScript : MonoBehaviour {
     private KeyCode punchLeft = KeyCode.RightControl;
     [SerializeField]
     private KeyCode jumpButton = KeyCode.UpArrow;
-
+    [SerializeField]
+    private SpriteRenderer shoeL;
+    [SerializeField]
+    private SpriteRenderer shoeR;
 
     private static Vector2 HEAD = new Vector2(0, 0.45f);
     private bool rooted = true;
@@ -51,6 +54,8 @@ public class MovementScript : MonoBehaviour {
     private void UpdateFacing(Facing value)
     {
         spriteRend.flipX = value == Facing.Right;
+        //shoeL.flipX = value == Facing.Right;
+        //shoeR.flipX = value == Facing.Left;
     }
 
 

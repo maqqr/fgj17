@@ -34,12 +34,10 @@ public class CameraFollow : MonoBehaviour
         
         }
         total /= objects.Count;
-        Debug.Log(total);
         for (int i = 0; i < objects.Count; i++)
         {
             distance += Mathf.Abs(objects[i].position.x - total.x);
         }
-        Debug.Log(distance);
        
         float size = Mathf.Min(maxSize, distance * 0.1f + startingSize);
         moveableCamera.orthographicSize = size;

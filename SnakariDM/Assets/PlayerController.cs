@@ -18,6 +18,13 @@ public class PlayerController : MonoBehaviour {
     private float timeDownToFaint = 2f;
     [SerializeField]
     private string playerName = "player";
+    [SerializeField]
+    private SpriteRenderer shirt;
+
+    [SerializeField]
+    private SpriteRenderer x1;
+    [SerializeField]
+    private SpriteRenderer x2;
 
     private bool fainted = false;
 
@@ -42,6 +49,7 @@ public class PlayerController : MonoBehaviour {
         movementScript = GetComponent<MovementScript>();
         wobbler = GetComponent<WobblerScript>();
         body = GetComponent<Rigidbody2D>();
+        shirt.color = UnityEngine.Random.ColorHSV();
 	}
 	
 
@@ -74,6 +82,8 @@ public class PlayerController : MonoBehaviour {
         movementScript.enabled = false;
         wobbler.enabled = false;
         fainted = true;
+        x1.gameObject.SetActive(true);
+        x2.gameObject.SetActive(true);
         if (onFaint != null)
             onFaint(this);
     }
