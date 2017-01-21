@@ -10,6 +10,8 @@ public class GameController : MonoBehaviour
     public event Action OnRoundEnd;
     public event Action<PlayerController> OnPlayerFaint;
 
+    public const float levelWidth = 50f;
+
     public AudioClip[] punchSounds;
     public AudioClip[] hurtSounds;
     public AudioClip drinkSound;
@@ -37,6 +39,13 @@ public class GameController : MonoBehaviour
     [SerializeField]
     private float endWaitTime = 3f;
 
+    [SerializeField]
+    private List<GameObject> droppablePrefabs = new List<GameObject>();
+    [SerializeField]
+    private float dropMinTime = 10f;
+    [SerializeField]
+    private float dropMaxTime = 20f;
+
     private DrunkEffect drunkEffect;
     private BackgroundMusic music;
 
@@ -48,6 +57,10 @@ public class GameController : MonoBehaviour
 
     private float carSpawnTimer = 5f;
 
+    private float dropSpawnTimer = 0f;
+    private float dropNextTime;
+
+
     void Start()
     {
         p1.onFaint += PlayerFainted;
@@ -56,7 +69,7 @@ public class GameController : MonoBehaviour
         drunkEffect = Camera.main.GetComponent<DrunkEffect>();
         music = GetComponent<BackgroundMusic>();
 
-        if(weather == null && useWeather)
+        if (weather == null && useWeather)
         {
             weather = PickRandomWeather("Weathers");
 
@@ -70,6 +83,13 @@ public class GameController : MonoBehaviour
             coll.sharedMaterial = newMat;
 
         }
+
+        RandomizeDropTime();
+    }
+
+    private void RandomizeDropTime()
+    {
+        dropNextTime = UnityEngine.Random.Range(dropMinTime, dropMaxTime);
     }
 
     private Weather PickRandomWeather(string v)
@@ -122,6 +142,18 @@ public class GameController : MonoBehaviour
             GameObject car = UnityEngine.Random.value > 0.5f ? leftCarPrefab : rightCarPrefab;
             Instantiate(car);
         }
+
+        dropSpawnTimer += Time.deltaTime;
+        if(dropSpawnTimer >= dropNextTime)
+        {
+            dropSpawnTimer -= dropNextTime;
+            GameObject bas = droppablePrefabs[UnityEngine.Random.Range(0, droppablePrefabs.Count)];
+            GameObject newOne = GameObject.Instantiate(bas);
+            newOne.transform.position = new Vector3(UnityEngine.Random.Range(levelWidth * -0.5f, levelWidth * 0.5f), 25, -2);
+            newOne.GetComponent<Rigidbody2D>().AddTorque(10f, ForceMode2D.Impulse);
+            RandomizeDropTime();
+        }
+
     }
 
     public void EndGame()

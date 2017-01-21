@@ -39,7 +39,7 @@ public class CameraFollow : MonoBehaviour
             distance += Mathf.Abs(objects[i].position.x - total.x);
         }
        
-        float size = Mathf.Min(maxSize, distance * 0.1f + startingSize);
+        float size = Mathf.Min(maxSize, distance * 0.15f + startingSize);
         moveableCamera.orthographicSize = size;
         Vector3 scaled = total * (1 - (size - startingSize) / (maxSize - startingSize));
 
