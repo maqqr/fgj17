@@ -29,6 +29,11 @@ public class GameController : MonoBehaviour
     [SerializeField]
     Text text;
 
+   // [SerializeField]
+    Weather weather;
+    [SerializeField]
+    private bool useWeather = true;
+
     [SerializeField]
     private float endWaitTime = 3f;
 
@@ -50,6 +55,31 @@ public class GameController : MonoBehaviour
 
         drunkEffect = Camera.main.GetComponent<DrunkEffect>();
         music = GetComponent<BackgroundMusic>();
+
+        if(weather == null && useWeather)
+        {
+            weather = PickRandomWeather("Weather\\");
+
+            GameObject pSystem = Resources.Load<GameObject>(weather.particleSystem);
+            Instantiate(pSystem);
+            GameObject pavement = GameObject.Find("Pavement");
+            BoxCollider2D coll = pavement.GetComponent<BoxCollider2D>();
+            PhysicsMaterial2D newMat = PhysicsMaterial2D.Instantiate(coll.sharedMaterial);
+            newMat.friction = weather.groundFriction;
+            newMat.bounciness = weather.groundBounciness;
+            coll.sharedMaterial = newMat;
+
+        }
+    }
+
+    private Weather PickRandomWeather(string v)
+    {
+           List<DataFile> files = Load.LoadFiles(Application.dataPath + "\\Resources\\" + v);
+        int selected = UnityEngine.Random.Range(0, files.Count);
+
+        Weather weather = JsonUtility.FromJson<Weather>(files[selected].content);
+        return weather;
+
     }
 
     private void PlayerFainted(PlayerController obj)

@@ -26,17 +26,23 @@ public class FistController : MonoBehaviour {
     private Pool powPool;
 
     // Use this for initialization
-    void Start () {
+    void Awake () {
         fistBody = GetComponent<Rigidbody2D>();
         joint = GetComponent<FixedJoint2D>();
         startingPos = transform.localPosition;
-        powPool = GameObject.FindObjectOfType<Pool>();
+       
 
 	}
+
+    private void Start()
+    {
+        powPool = GameObject.FindObjectOfType<Pool>();
+    }
 
     public void Register(Rigidbody2D player)
     {
         this.toLatchTo = player;
+
         diff = fistBody.position - player.position;
     }
 
