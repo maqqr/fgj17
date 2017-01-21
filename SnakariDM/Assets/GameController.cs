@@ -11,6 +11,12 @@ public class GameController : MonoBehaviour
     public event Action<PlayerController> OnPlayerFaint;
 
     [SerializeField]
+    private GameObject leftCarPrefab;
+
+    [SerializeField]
+    private GameObject rightCarPrefab;
+
+    [SerializeField]
     private PlayerController p1;
 
     [SerializeField]
@@ -30,6 +36,8 @@ public class GameController : MonoBehaviour
 
     private bool ending = false;
     private float endCounter = 0f;
+
+    private float carSpawnTimer = 5f;
 
     void Start()
     {
@@ -72,6 +80,14 @@ public class GameController : MonoBehaviour
         drunkEffect.ghostImage = 0.3f * avgDrunkLevel;
         music.pitchChange = 0.3f * avgDrunkLevel;
         Time.timeScale = 1.0f + 0.5f * Mathf.Sin(Time.unscaledTime*0.5f) * avgDrunkLevel;
+
+        carSpawnTimer -= Time.deltaTime;
+        if (carSpawnTimer < 0f)
+        {
+            carSpawnTimer = 4f + UnityEngine.Random.value * 10f;
+            GameObject car = UnityEngine.Random.value > 0.5f ? leftCarPrefab : rightCarPrefab;
+            Instantiate(car);
+        }
     }
 
     public void EndGame()

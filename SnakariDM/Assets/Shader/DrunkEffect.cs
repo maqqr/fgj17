@@ -16,6 +16,11 @@ public class DrunkEffect : MonoBehaviour
 
     public float ghostImage = 0f;
 
+    void Awake()
+    {
+        material = Instantiate(material);
+    }
+
     void OnRenderImage(RenderTexture source, RenderTexture destination)
     {
         material.SetVector("_WaveScale", new Vector4(waveScale.x, waveScale.y, 0f, 0f));
