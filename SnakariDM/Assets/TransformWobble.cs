@@ -1,25 +1,28 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
-public class TransformWobble : MonoBehaviour {
+public class TransformWobble : MonoBehaviour
+{
     Transform[] wobbled;
     [SerializeField]
     private float wobbleSpeed = 5f;
-    private float uniqWobble;
+    private float phase;
 
-	// Use this for initialization
-	void Start () {
+    void Start()
+    {
         wobbled = GetComponentsInChildren<Transform>();
-        uniqWobble = Random.Range(-0.25f, 0.75f);
-	}
-	
-	// Update is called once per frame
-	void Update () {
+        phase = Random.Range(0.0f, 2f * Mathf.PI);
+        wobbleSpeed = Random.Range(0f, wobbleSpeed);
+    }
+
+    void Update()
+    {
         for (int i = 0; i < wobbled.Length; i++)
         {
-            wobbled[i].rotation *= Quaternion.Euler(0,0, wobbleSpeed * Mathf.Sin(wobbleSpeed * Time.time * uniqWobble) * Time.deltaTime);
+            wobbled[i].localRotation = Quaternion.Euler(0, 0, 15f * Mathf.Sin(wobbleSpeed * Time.time + phase));
         }
-        transform.rotation *= Quaternion.Euler(0, 0, wobbleSpeed * Mathf.Sin(wobbleSpeed * Time.time * uniqWobble) * Time.deltaTime);
-	}
+    }
 }
