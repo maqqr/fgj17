@@ -10,6 +10,10 @@ public class GameController : MonoBehaviour
     public event Action OnRoundEnd;
     public event Action<PlayerController> OnPlayerFaint;
 
+    public AudioClip[] punchSounds;
+    public AudioClip[] hurtSounds;
+    public AudioClip[] drinkSound;
+
     [SerializeField]
     private GameObject leftCarPrefab;
 
@@ -96,5 +100,16 @@ public class GameController : MonoBehaviour
         {
             OnRoundEnd();
         }
+    }
+
+    public void PlayRandomSound(AudioClip[] clips)
+    {
+        AudioClip clip = clips[UnityEngine.Random.Range(0, clips.Length)];
+        PlayRandomSound(clip);
+    }
+
+    public void PlayRandomSound(AudioClip clip)
+    {
+        AudioSource.PlayClipAtPoint(clip, Camera.main.transform.position);
     }
 }
