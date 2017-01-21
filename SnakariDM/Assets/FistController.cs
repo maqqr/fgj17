@@ -24,14 +24,14 @@ public class FistController : MonoBehaviour {
     private Rigidbody2D toLatchTo;
     private Vector2 diff;
     private Pool powPool;
+    private GameController gameController;
 
     // Use this for initialization
     void Awake () {
         fistBody = GetComponent<Rigidbody2D>();
         joint = GetComponent<FixedJoint2D>();
+        gameController = GameObject.Find("GameController").GetComponent<GameController>();
         startingPos = transform.localPosition;
-       
-
 	}
 
     private void Start()
@@ -90,6 +90,9 @@ public class FistController : MonoBehaviour {
             PovDispenser povDispenser = pow.AddComponent<PovDispenser>();
             povDispenser.PovPool = this.powPool;
             pow.transform.position = fistBody.position +  Random.insideUnitCircle * 0.75f;
+
+            gameController.PlayRandomSound(gameController.punchSounds);
+            gameController.PlayRandomSound(gameController.hurtSounds);
         }
     }
 

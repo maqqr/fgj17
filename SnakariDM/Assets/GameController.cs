@@ -12,7 +12,7 @@ public class GameController : MonoBehaviour
 
     public AudioClip[] punchSounds;
     public AudioClip[] hurtSounds;
-    public AudioClip[] drinkSound;
+    public AudioClip drinkSound;
 
     [SerializeField]
     private GameObject leftCarPrefab;
@@ -111,9 +111,9 @@ public class GameController : MonoBehaviour
         avgDrunkLevel += (targetAvgDrunkLevel - avgDrunkLevel) * Time.deltaTime * 0.5f;
 
         drunkEffect.waveScale = new Vector2(1f, 1f) * 0.08f * avgDrunkLevel;
-        drunkEffect.ghostImage = 0.3f * avgDrunkLevel;
-        music.pitchChange = 0.3f * avgDrunkLevel;
-        Time.timeScale = 1.0f + 0.5f * Mathf.Sin(Time.unscaledTime*0.5f) * avgDrunkLevel;
+        drunkEffect.ghostImage = 0.4f * avgDrunkLevel;
+        music.pitchChange = 0.4f * avgDrunkLevel;
+        Time.timeScale = 1.0f + 0.6f * Mathf.Sin(Time.unscaledTime*0.5f) * avgDrunkLevel;
 
         carSpawnTimer -= Time.deltaTime;
         if (carSpawnTimer < 0f)
@@ -132,14 +132,14 @@ public class GameController : MonoBehaviour
         }
     }
 
-    public void PlayRandomSound(AudioClip[] clips)
+    public void PlayRandomSound(AudioClip[] clips, float volume = 0.5f)
     {
         AudioClip clip = clips[UnityEngine.Random.Range(0, clips.Length)];
         PlayRandomSound(clip);
     }
 
-    public void PlayRandomSound(AudioClip clip)
+    public void PlayRandomSound(AudioClip clip, float volume = 0.5f)
     {
-        AudioSource.PlayClipAtPoint(clip, Camera.main.transform.position);
+        AudioSource.PlayClipAtPoint(clip, Camera.main.transform.position, volume);
     }
 }

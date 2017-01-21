@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour {
     private MovementScript movementScript;
     private WobblerScript wobbler;
     private Rigidbody2D body;
+    private GameController gameController;
 
     private int hits = 0;
     private float timeDown = 0f;
@@ -69,6 +70,7 @@ public class PlayerController : MonoBehaviour {
         movementScript = GetComponent<MovementScript>();
         wobbler = GetComponent<WobblerScript>();
         body = GetComponent<Rigidbody2D>();
+        gameController = GameObject.Find("GameController").GetComponent<GameController>();
         shirt.color = UnityEngine.Random.ColorHSV();
 	}
 	
@@ -114,6 +116,8 @@ public class PlayerController : MonoBehaviour {
         {
             DrunkLevel += 0.2f;
             Destroy(collision.collider.gameObject);
+
+            gameController.PlayRandomSound(gameController.drinkSound, 0.5f);
         }
     }
 }
