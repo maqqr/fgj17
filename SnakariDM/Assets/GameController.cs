@@ -1,10 +1,14 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class GameController : MonoBehaviour {
+
+    public event Action OnRoundEnd;
+    public event Action<PlayerController> OnPlayerFaint;
 
     [SerializeField]
     PlayerController p1;
@@ -13,38 +17,52 @@ public class GameController : MonoBehaviour {
 
     [SerializeField]
     Text text;
+
     [SerializeField]
     private float endWaitTime = 3f;
-
     private bool ending = false;
     private float endCounter = 0f;
-    
+
+
     void Start () {
-        p1.onFaint += EndGame;
-        p2.onFaint += EndGame;
+        p1.onFaint += PlayerFainted;
+        p2.onFaint += PlayerFainted;
 	}
-	
-	// Update is called once per frame
-	void Update () {
+
+    private void PlayerFainted(PlayerController obj)
+    {
+        if (OnPlayerFaint != null)
+            OnPlayerFaint(obj);
+        ending = true;
+        text.gameObject.SetActive(true);
+        text.text = (obj.PlayerName + " has fainted!");
+    }
+
+    // Update is called once per frame
+    void Update () {
 		if(Input.GetKeyDown(KeyCode.Space))
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
-        if(ending)
+        if (ending)
         {
             endCounter += Time.deltaTime;
         }
-        if(endCounter >= endWaitTime)
+        if (endCounter >= endWaitTime)
         {
-            SceneManager.LoadScene("Menu");
-        }
-	}
+            EndGame();
 
-    public void EndGame(PlayerController pl)
+        }
+    }
+
+    public void EndGame()
     {
-        text.gameObject.SetActive(true);
-        text.text = (pl.PlayerName + " has fainted!");
-        ending = true;
+        if(OnRoundEnd != null)
+        {
+            OnRoundEnd();
+        }
+
+
     }
 
 }

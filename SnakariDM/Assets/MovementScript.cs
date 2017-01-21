@@ -15,7 +15,8 @@ public class MovementScript : MonoBehaviour {
     private float jumpForce = 100f;
     [SerializeField]
     private Vector2 centerOfMass = new Vector2(0, -0.2f);
-
+    [SerializeField]
+    private float wanderSpeed = 2f;
 
     [SerializeField]
     private FistController rightFist;
@@ -74,8 +75,9 @@ public class MovementScript : MonoBehaviour {
 
         float jump = Input.GetKeyDown(jumpButton) ? 1.0f : 0.0f; //Input.GetAxis("Vertical");
 
+        MoveByRotation();
 
-        rooted = Physics2D.Raycast(transform.position + -transform.up * 1.1f , -transform.up, 0.5f);
+        rooted = Physics2D.Raycast(transform.position + -transform.up * 1.15f , -transform.up, 0.25f);
         //rooted = Physics.SphereCast(transform.position + new Vector3(0, -1.05f, 0), 0.15, );
         if (rooted)
         {
@@ -86,6 +88,8 @@ public class MovementScript : MonoBehaviour {
             if (jump > 0)
                 body.velocity = new Vector2(force.x, force.y);
         }
+
+      
 
         if(Input.GetKeyDown(punchRight))
         {
@@ -98,6 +102,12 @@ public class MovementScript : MonoBehaviour {
 
     }
 
+    private void MoveByRotation()
+    {
+        float direction = Mathf.Sign(body.rotation) * -1f;
+        direction = Mathf.Min(45, Mathf.Abs( body.rotation)) / 45 * direction;
+        body.position += new Vector2(wanderSpeed * direction * Time.deltaTime, 0);
+    }
 
     private void Move()
     {
@@ -112,8 +122,11 @@ public class MovementScript : MonoBehaviour {
         // body.AddTorque(torque);
         Vector2 d = new Vector2(transform.up.x, transform.up.y);
         Vector2 headForce = body.position + d * 0.35f;
+        float rotationMultiplier = 1 - Mathf.Abs(body.rotation) / 180f;
+       // rotationMultiplier = Mathf.Pow(rotationMultiplier, 3);
+        Vector2 force = new Vector2(-torque, 0) * rotationMultiplier;
 
-        body.AddForceAtPosition(new Vector2(-torque, 0) * Time.deltaTime, d, ForceMode2D.Force);
+        body.AddForceAtPosition(force, headForce, ForceMode2D.Force);
 
         if (movement.x > 0)
         {

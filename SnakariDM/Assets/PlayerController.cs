@@ -25,7 +25,8 @@ public class PlayerController : MonoBehaviour {
     private SpriteRenderer x1;
     [SerializeField]
     private SpriteRenderer x2;
-
+    [SerializeField]
+    private int playerNumber = 1;
     private bool fainted = false;
 
 
@@ -39,6 +40,19 @@ public class PlayerController : MonoBehaviour {
         set
         {
             playerName = value;
+        }
+    }
+
+    public int PlayerNumber
+    {
+        get
+        {
+            return playerNumber;
+        }
+
+        set
+        {
+            playerNumber = value;
         }
     }
 

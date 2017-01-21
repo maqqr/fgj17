@@ -37,7 +37,7 @@ public class MenuController : MonoBehaviour {
 
     public void StartGame()
     {
-        SceneManager.LoadScene("ShaderTests");
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex +1);
     }
 
 
