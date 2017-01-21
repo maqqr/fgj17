@@ -71,7 +71,7 @@ public class GameController : MonoBehaviour
         drunkEffect.waveScale = new Vector2(1f, 1f) * 0.08f * avgDrunkLevel;
         drunkEffect.ghostImage = 0.3f * avgDrunkLevel;
         music.pitchChange = 0.3f * avgDrunkLevel;
-        Time.timeScale = 1.0f + 0.5f * Mathf.Sin(Time.unscaledTime*0.5f);
+        Time.timeScale = 1.0f + 0.5f * Mathf.Sin(Time.unscaledTime*0.5f) * avgDrunkLevel;
     }
 
     public void EndGame()

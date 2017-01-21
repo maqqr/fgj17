@@ -64,7 +64,6 @@ public class PlayerController : MonoBehaviour {
     }
 
 
-
     // Use this for initialization
     void Start () {
         movementScript = GetComponent<MovementScript>();
