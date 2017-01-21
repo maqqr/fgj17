@@ -23,19 +23,28 @@ public class FistController : MonoBehaviour {
     private bool punched = false;
     private Rigidbody2D toLatchTo;
     private Vector2 diff;
+    private Pool powPool;
 
     // Use this for initialization
     void Start () {
         fistBody = GetComponent<Rigidbody2D>();
         joint = GetComponent<FixedJoint2D>();
         startingPos = transform.localPosition;
+        powPool = GameObject.FindObjectOfType<Pool>();
+
 	}
 
-    public void ThrowAPunch(Rigidbody2D player, Facing facing)
+    public void Register(Rigidbody2D player)
+    {
+        this.toLatchTo = player;
+        diff = fistBody.position - player.position;
+    }
+
+
+    public void ThrowAPunch(Facing facing)
     {
         if (punched) return;
-        this.toLatchTo = player;
-        diff = fistBody.position - player.position ;
+
         fistBody.position += punchStartModifier;
         Vector2 punch = facing == Facing.Left ? new Vector2(-punchSpeed, 0) : new Vector2(punchSpeed, 0);
         joint.enabled = false;
@@ -65,12 +74,16 @@ public class FistController : MonoBehaviour {
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if("Player" == collision.gameObject.tag)
+        if(punched && "Player" == collision.gameObject.tag)
         {
             Vector2 dir = fistBody.position - collision.rigidbody.position;
 
             collision.rigidbody.AddForce(dir.normalized * punchForce * -1);
             collision.gameObject.GetComponent<PlayerController>().TakeHit();
+            GameObject pow = powPool.Get();
+            PovDispenser povDispenser = pow.AddComponent<PovDispenser>();
+            povDispenser.PovPool = this.powPool;
+            pow.transform.position = fistBody.position +  Random.insideUnitCircle * 0.75f;
         }
     }
 
