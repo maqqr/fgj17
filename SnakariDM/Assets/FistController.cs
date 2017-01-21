@@ -34,11 +34,17 @@ public class FistController : MonoBehaviour {
 
 	}
 
-    public void ThrowAPunch(Rigidbody2D player, Facing facing)
+    public void Register(Rigidbody2D player)
+    {
+        this.toLatchTo = player;
+        diff = fistBody.position - player.position;
+    }
+
+
+    public void ThrowAPunch(Facing facing)
     {
         if (punched) return;
-        this.toLatchTo = player;
-        diff = fistBody.position - player.position ;
+
         fistBody.position += punchStartModifier;
         Vector2 punch = facing == Facing.Left ? new Vector2(-punchSpeed, 0) : new Vector2(punchSpeed, 0);
         joint.enabled = false;
