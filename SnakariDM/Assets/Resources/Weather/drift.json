@@ -1,0 +1,6 @@
+{
+	"particleSystem": "HeavyRain",
+	"particles": "RainParticle",
+	"groundFriction": 0.15
+
+}
