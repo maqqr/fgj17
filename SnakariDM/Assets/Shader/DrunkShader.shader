@@ -6,6 +6,7 @@
 		_DisplaceTex ("Displacement Texture", 2D) = "white" {}
 		_WaveScale ("Wave Scale", Vector) =  (1, 1, 0, 0)
 		_TimeScale("Time Scale", Vector) = (1, 1, 0, 0)
+		_GhostImage("Ghost Image", Float) = 0
 	}
 	SubShader
 	{
@@ -44,6 +45,7 @@
 			sampler2D _DisplaceTex;
 			float4 _WaveScale;
 			float4 _TimeScale;
+			float _GhostImage;
 
 			fixed4 frag (v2f i) : SV_Target
 			{
@@ -69,7 +71,7 @@
 
 				fixed4 col = tex2D(_MainTex, lerp(i.uv, distortion, c));
 				col -= 0.4 * pow(tex2D(_DisplaceTex, distortion2 * 2), 2);
-				col += 0.2 * tex2D(_MainTex, distortion3);
+				col += _GhostImage * tex2D(_MainTex, distortion3);
 
 				return col;
 			}

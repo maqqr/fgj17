@@ -29,6 +29,13 @@ public class PlayerController : MonoBehaviour {
     private int playerNumber = 1;
     private bool fainted = false;
 
+    private float drunkLevel;
+
+    public float DrunkLevel
+    {
+        get { return drunkLevel; }
+        set { drunkLevel = Mathf.Max(0f, Mathf.Min(1f, value)); }
+    }
 
     public string PlayerName
     {
@@ -100,5 +107,14 @@ public class PlayerController : MonoBehaviour {
         x2.gameObject.SetActive(true);
         if (onFaint != null)
             onFaint(this);
+    }
+
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.collider.tag == "Bottle")
+        {
+            DrunkLevel += 0.2f;
+            Destroy(collision.collider.gameObject);
+        }
     }
 }
