@@ -70,9 +70,7 @@ public class GameController : MonoBehaviour
 
     private Weather PickRandomWeather(string v)
     {
-        Debug.Log(Application.dataPath + "\\Resources\\" + v);
-        //string useAssets = Debug.isDebugBuild ? "\\Assets" : "";
-        List<DataFile> files = Load.LoadFiles(Application.dataPath + "\\Resources\\" + v);
+           List<DataFile> files = Load.LoadFiles(Application.dataPath + "\\Resources\\" + v);
         int selected = UnityEngine.Random.Range(0, files.Count);
 
         Weather weather = JsonUtility.FromJson<Weather>(files[selected].content);

@@ -1,0 +1,6 @@
+{
+	"particleSystem": "Cats",
+	"groundFriction": 0.8,
+	"groundBounciness": 0.25
+
+}
