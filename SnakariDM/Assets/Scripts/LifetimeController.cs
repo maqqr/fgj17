@@ -34,7 +34,8 @@ public class LifetimeController : MonoBehaviour {
         UpdateTexts();
         if(Instance == null)
         {
-            SceneManager.activeSceneChanged += NewSceneStarted;
+            SceneManager.sceneLoaded += NewSceneStarted;
+            
             Instance = this;
         }
         if(SceneManager.GetActiveScene().name == "Load")
@@ -45,25 +46,30 @@ public class LifetimeController : MonoBehaviour {
 
     }
 
+
+
     private void UpdateTexts()
     {
-        for (int i = 0; i < playerTexts.Length; i++)
+        for (int i = playerTexts.Length-1; i >= 0; i--)
         {
-            playerTexts[i].text = "P" + (i + 1) + ": " + playerWins[i];
+            playerTexts[i].text = "P" + (2 - i) + ": " + playerWins[i];
         }
     }
 
-    private void NewSceneStarted(Scene arg0, Scene arg1)
+    private void NewSceneStarted(Scene scene, LoadSceneMode loadmode)
     {
-        if(arg1.name != "Menu")
+        if(scene.name != "Menu")
         {
             gc = GameObject.FindObjectOfType<GameController>();
+            
             gc.OnPlayerFaint += PlayerFaints;
             gc.OnRoundEnd += RoundEnds;
             canvas.gameObject.SetActive(true);
         }
-        else if(arg1.name == "Menu")
+        else if(scene.name == "Menu")
         {
+            playerWins = new int[2];
+            UpdateTexts();
             canvas.gameObject.SetActive(false);
         }
     }
