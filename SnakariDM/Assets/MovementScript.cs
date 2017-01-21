@@ -112,22 +112,20 @@ public class MovementScript : MonoBehaviour {
     private void Move()
     {
         Vector2 movement = new Vector2();
-
+        float fdTime = Time.fixedDeltaTime;
         movement.x = Input.GetAxis(movementAxis);
 
         //transform.position += movement * Time.deltaTime * movementSpeed;
-        body.AddForce(movement * Time.deltaTime * movementSpeed, ForceMode2D.Force);
+        body.AddForce(movement * fdTime * movementSpeed, ForceMode2D.Force);
 
-        float torque = movement.x * Time.deltaTime * movementForceModifierRotation;
+        float torque = movement.x * fdTime * movementForceModifierRotation;
         // body.AddTorque(torque);
         Vector2 d = new Vector2(transform.up.x, transform.up.y);
         Vector2 headForce = body.position + d * 0.35f;
         float rotationMultiplier = 1 - Mathf.Abs(body.rotation) / 180f;
-       // rotationMultiplier = Mathf.Pow(rotationMultiplier, 3);
+
         Vector2 force = new Vector2(-torque, 0) * rotationMultiplier;
-
         body.AddForceAtPosition(force, headForce, ForceMode2D.Force);
-
         if (movement.x > 0)
         {
             Facing = Facing.Right;
