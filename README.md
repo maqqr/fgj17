@@ -1,6 +1,6 @@
 # Snagari Deathmatch
 
-Finnish Game Jam 2017 game
+Finnish Game Jam 2017 game - [**play here!**](https://snagari.updog.co/)
 
 ![Title](/static/pelikuva.jpg)
 
